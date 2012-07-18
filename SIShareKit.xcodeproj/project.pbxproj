@@ -15,6 +15,15 @@
 		5BEF04BC15B69512002DEA10 /* SISKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04BB15B69512002DEA10 /* SISKAppDelegate.m */; };
 		5BEF04BF15B69512002DEA10 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04BD15B69512002DEA10 /* MainStoryboard.storyboard */; };
 		5BEF04C215B69512002DEA10 /* SISKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04C115B69512002DEA10 /* SISKViewController.m */; };
+		5BEF04DD15B69707002DEA10 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04D215B69707002DEA10 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF04DE15B69707002DEA10 /* OpenApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04D415B69707002DEA10 /* OpenApi.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF04DF15B69707002DEA10 /* OpenSdkBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04D615B69707002DEA10 /* OpenSdkBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF04E015B69707002DEA10 /* OpenSdkOauth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04D815B69707002DEA10 /* OpenSdkOauth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF04E115B69707002DEA10 /* OpenSdkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04DA15B69707002DEA10 /* OpenSdkRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF04E215B69707002DEA10 /* OpenSdkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04DC15B69707002DEA10 /* OpenSdkResponse.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF04E615B69861002DEA10 /* mm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04E515B69861002DEA10 /* mm.jpg */; };
+		5BEF04EB15B69955002DEA10 /* SIBaseDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04E815B69955002DEA10 /* SIBaseDialogViewController.m */; };
+		5BEF04EC15B69955002DEA10 /* SIQQWeiBoWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04EA15B69955002DEA10 /* SIQQWeiBoWebViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +40,23 @@
 		5BEF04BE15B69512002DEA10 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		5BEF04C015B69512002DEA10 /* SISKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SISKViewController.h; sourceTree = "<group>"; };
 		5BEF04C115B69512002DEA10 /* SISKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SISKViewController.m; sourceTree = "<group>"; };
+		5BEF04D115B69707002DEA10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		5BEF04D215B69707002DEA10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		5BEF04D315B69707002DEA10 /* OpenApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenApi.h; sourceTree = "<group>"; };
+		5BEF04D415B69707002DEA10 /* OpenApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenApi.m; sourceTree = "<group>"; };
+		5BEF04D515B69707002DEA10 /* OpenSdkBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSdkBase.h; sourceTree = "<group>"; };
+		5BEF04D615B69707002DEA10 /* OpenSdkBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenSdkBase.m; sourceTree = "<group>"; };
+		5BEF04D715B69707002DEA10 /* OpenSdkOauth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSdkOauth.h; sourceTree = "<group>"; };
+		5BEF04D815B69707002DEA10 /* OpenSdkOauth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenSdkOauth.m; sourceTree = "<group>"; };
+		5BEF04D915B69707002DEA10 /* OpenSdkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSdkRequest.h; sourceTree = "<group>"; };
+		5BEF04DA15B69707002DEA10 /* OpenSdkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenSdkRequest.m; sourceTree = "<group>"; };
+		5BEF04DB15B69707002DEA10 /* OpenSdkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSdkResponse.h; sourceTree = "<group>"; };
+		5BEF04DC15B69707002DEA10 /* OpenSdkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenSdkResponse.m; sourceTree = "<group>"; };
+		5BEF04E515B69861002DEA10 /* mm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mm.jpg; sourceTree = "<group>"; };
+		5BEF04E715B69955002DEA10 /* SIBaseDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIBaseDialogViewController.h; sourceTree = "<group>"; };
+		5BEF04E815B69955002DEA10 /* SIBaseDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIBaseDialogViewController.m; sourceTree = "<group>"; };
+		5BEF04E915B69955002DEA10 /* SIQQWeiBoWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIQQWeiBoWebViewController.h; sourceTree = "<group>"; };
+		5BEF04EA15B69955002DEA10 /* SIQQWeiBoWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIQQWeiBoWebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +103,9 @@
 		5BEF04B115B69512002DEA10 /* SIShareKit */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF04E315B6984A002DEA10 /* Resources */,
+				5BEF04CE15B69639002DEA10 /* SIShareEngine */,
+				5BEF04CC15B69628002DEA10 /* Libraries */,
 				5BEF04BA15B69512002DEA10 /* SISKAppDelegate.h */,
 				5BEF04BB15B69512002DEA10 /* SISKAppDelegate.m */,
 				5BEF04BD15B69512002DEA10 /* MainStoryboard.storyboard */,
@@ -96,6 +125,68 @@
 				5BEF04B915B69512002DEA10 /* SIShareKit-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5BEF04CC15B69628002DEA10 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF04D015B696ED002DEA10 /* TXWeibo */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		5BEF04CE15B69639002DEA10 /* SIShareEngine */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF04CF15B6969C002DEA10 /* SIDialogViewController */,
+			);
+			name = SIShareEngine;
+			sourceTree = "<group>";
+		};
+		5BEF04CF15B6969C002DEA10 /* SIDialogViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF04E715B69955002DEA10 /* SIBaseDialogViewController.h */,
+				5BEF04E815B69955002DEA10 /* SIBaseDialogViewController.m */,
+				5BEF04E915B69955002DEA10 /* SIQQWeiBoWebViewController.h */,
+				5BEF04EA15B69955002DEA10 /* SIQQWeiBoWebViewController.m */,
+			);
+			name = SIDialogViewController;
+			sourceTree = "<group>";
+		};
+		5BEF04D015B696ED002DEA10 /* TXWeibo */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF04D115B69707002DEA10 /* JSONKit.h */,
+				5BEF04D215B69707002DEA10 /* JSONKit.m */,
+				5BEF04D315B69707002DEA10 /* OpenApi.h */,
+				5BEF04D415B69707002DEA10 /* OpenApi.m */,
+				5BEF04D515B69707002DEA10 /* OpenSdkBase.h */,
+				5BEF04D615B69707002DEA10 /* OpenSdkBase.m */,
+				5BEF04D715B69707002DEA10 /* OpenSdkOauth.h */,
+				5BEF04D815B69707002DEA10 /* OpenSdkOauth.m */,
+				5BEF04D915B69707002DEA10 /* OpenSdkRequest.h */,
+				5BEF04DA15B69707002DEA10 /* OpenSdkRequest.m */,
+				5BEF04DB15B69707002DEA10 /* OpenSdkResponse.h */,
+				5BEF04DC15B69707002DEA10 /* OpenSdkResponse.m */,
+			);
+			name = TXWeibo;
+			sourceTree = "<group>";
+		};
+		5BEF04E315B6984A002DEA10 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF04E415B69851002DEA10 /* Images */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5BEF04E415B69851002DEA10 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF04E515B69861002DEA10 /* mm.jpg */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +243,7 @@
 			files = (
 				5BEF04B615B69512002DEA10 /* InfoPlist.strings in Resources */,
 				5BEF04BF15B69512002DEA10 /* MainStoryboard.storyboard in Resources */,
+				5BEF04E615B69861002DEA10 /* mm.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +257,14 @@
 				5BEF04B815B69512002DEA10 /* main.m in Sources */,
 				5BEF04BC15B69512002DEA10 /* SISKAppDelegate.m in Sources */,
 				5BEF04C215B69512002DEA10 /* SISKViewController.m in Sources */,
+				5BEF04DD15B69707002DEA10 /* JSONKit.m in Sources */,
+				5BEF04DE15B69707002DEA10 /* OpenApi.m in Sources */,
+				5BEF04DF15B69707002DEA10 /* OpenSdkBase.m in Sources */,
+				5BEF04E015B69707002DEA10 /* OpenSdkOauth.m in Sources */,
+				5BEF04E115B69707002DEA10 /* OpenSdkRequest.m in Sources */,
+				5BEF04E215B69707002DEA10 /* OpenSdkResponse.m in Sources */,
+				5BEF04EB15B69955002DEA10 /* SIBaseDialogViewController.m in Sources */,
+				5BEF04EC15B69955002DEA10 /* SIQQWeiBoWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +376,7 @@
 				5BEF04C715B69512002DEA10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
