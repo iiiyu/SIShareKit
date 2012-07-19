@@ -7,6 +7,7 @@
 //
 
 #import "OpenSdkBase.h"
+#import "SIShareCommonHeader.h"
 
 @implementation OpenSdkBase
 
@@ -18,13 +19,13 @@
 /*
  * Todo: 请填写您的应用的appkey和appsecret
  */
-#define oauthAppKey @"801192322"
-#define oauthAppSecret @"e01c93940c1a032501d5d8380dac56b6"
+//#define oauthAppKey @"801192322"
+//#define oauthAppSecret @"e01c93940c1a032501d5d8380dac56b6"
 
-/*
- * Todo：请正确填写您的应用网址，否则将导致授权失败
- */
-#define redirect_uri @"http://qairapp.com/"
+///*
+// * Todo：请正确填写您的应用网址，否则将导致授权失败
+// */
+//#define redirect_uri @"http://qairapp.com/"
 
 #pragma -
 #pragma mark get clientip
@@ -36,14 +37,14 @@
 #pragma mark getAppKey
 
 + (NSString *) getAppKey {
-    return oauthAppKey;
+    return kTXAppKey;
 }
 
 #pragma -
 #pragma mark getAppSecret
 
 + (NSString *) getAppSecret {
-    return oauthAppSecret;
+    return kTXAPPSecret;
 }
 
 #pragma -

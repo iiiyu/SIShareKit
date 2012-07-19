@@ -25,15 +25,18 @@
 @implementation SIBaseDialogViewController
 @synthesize backgroundView = _backgroundView;
 @synthesize cancelButton = _cancelButton;
+//@synthesize cancelButton;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
+
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        // Custom initialization
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad
 {
@@ -65,21 +68,28 @@
     skinView.alpha = 0.4f;
     [self.view addSubview:skinView];
     
-    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.cancelButton.frame = CGRectMake(self.view.frame.size.width - (kPadding+25), 0,35, 35);
-    [self.cancelButton setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
-    [self.cancelButton setImage:[UIImage imageNamed:@"close_selected.png"] forState:UIControlStateHighlighted];
-    [self.cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.cancelButton];
+    _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _cancelButton.frame = CGRectMake(self.view.frame.size.width - (kPadding+25), 0,35, 35);
+    [_cancelButton setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
+    [_cancelButton setImage:[UIImage imageNamed:@"close_selected.png"] forState:UIControlStateHighlighted];
+//    [_cancelButton addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
+    [_cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_cancelButton];
     
     [self sizeToFitOrientation:YES];
 }
 
 - (void)viewDidUnload
 {
+    self.backgroundView = nil;
+    self.cancelButton = nil;
     [super viewDidUnload];
+//    [self
+    [self setBackgroundView:nil];
+    [self setCancelButton:nil];
     // Release any retained subviews of the main view.
 }
+
 
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 //{
@@ -275,7 +285,9 @@
     
 }
 
-- (void)cancel {
+- (void)cancel 
+{
+    NSLog(@"hello");
     [self close];
 }
 
@@ -289,6 +301,11 @@
         return CGRectMake(kPadding, kPadding * 3, self.view.frame.size.width - kPadding * 2, 
                           self.view.frame.size.height - kPadding * 4);
     }
+}
+
+- (IBAction)test:(UIButton *)sender
+{
+    NSLog(@"hello");
 }
 
 

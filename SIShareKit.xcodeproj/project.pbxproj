@@ -24,6 +24,15 @@
 		5BEF04E615B69861002DEA10 /* mm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04E515B69861002DEA10 /* mm.jpg */; };
 		5BEF04EB15B69955002DEA10 /* SIBaseDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04E815B69955002DEA10 /* SIBaseDialogViewController.m */; };
 		5BEF04EC15B69955002DEA10 /* SIQQWeiBoWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04EA15B69955002DEA10 /* SIQQWeiBoWebViewController.m */; };
+		5BEF04F515B6A7F3002DEA10 /* SISKTXWeiboEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF04F415B6A7F2002DEA10 /* SISKTXWeiboEngine.m */; };
+		5BEF04FA15B6AD44002DEA10 /* close_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04F615B6AD44002DEA10 /* close_selected.png */; };
+		5BEF04FB15B6AD44002DEA10 /* close_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04F715B6AD44002DEA10 /* close_selected@2x.png */; };
+		5BEF04FC15B6AD44002DEA10 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04F815B6AD44002DEA10 /* close.png */; };
+		5BEF04FD15B6AD44002DEA10 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF04F915B6AD44002DEA10 /* close@2x.png */; };
+		5BEF050915B6BD65002DEA10 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF050815B6BD65002DEA10 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5BEF050C15B7C19D002DEA10 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEF050B15B7C19C002DEA10 /* Security.framework */; };
+		5BEF050F15B7DFF2002DEA10 /* SISKTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF050E15B7DFF1002DEA10 /* SISKTestViewController.m */; };
+		5BEF051615B7EC14002DEA10 /* SISKBaseDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF051515B7EC14002DEA10 /* SISKBaseDialogView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +66,20 @@
 		5BEF04E815B69955002DEA10 /* SIBaseDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIBaseDialogViewController.m; sourceTree = "<group>"; };
 		5BEF04E915B69955002DEA10 /* SIQQWeiBoWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIQQWeiBoWebViewController.h; sourceTree = "<group>"; };
 		5BEF04EA15B69955002DEA10 /* SIQQWeiBoWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIQQWeiBoWebViewController.m; sourceTree = "<group>"; };
+		5BEF04EE15B69FB3002DEA10 /* SIShareCommonHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIShareCommonHeader.h; sourceTree = "<group>"; };
+		5BEF04F315B6A7F2002DEA10 /* SISKTXWeiboEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISKTXWeiboEngine.h; sourceTree = "<group>"; };
+		5BEF04F415B6A7F2002DEA10 /* SISKTXWeiboEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISKTXWeiboEngine.m; sourceTree = "<group>"; };
+		5BEF04F615B6AD44002DEA10 /* close_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close_selected.png; sourceTree = "<group>"; };
+		5BEF04F715B6AD44002DEA10 /* close_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_selected@2x.png"; sourceTree = "<group>"; };
+		5BEF04F815B6AD44002DEA10 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		5BEF04F915B6AD44002DEA10 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		5BEF050715B6BD65002DEA10 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		5BEF050815B6BD65002DEA10 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		5BEF050B15B7C19C002DEA10 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5BEF050D15B7DFF1002DEA10 /* SISKTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISKTestViewController.h; sourceTree = "<group>"; };
+		5BEF050E15B7DFF1002DEA10 /* SISKTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISKTestViewController.m; sourceTree = "<group>"; };
+		5BEF051415B7EC14002DEA10 /* SISKBaseDialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISKBaseDialogView.h; sourceTree = "<group>"; };
+		5BEF051515B7EC14002DEA10 /* SISKBaseDialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISKBaseDialogView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BEF050C15B7C19D002DEA10 /* Security.framework in Frameworks */,
 				5BEF04AC15B69512002DEA10 /* UIKit.framework in Frameworks */,
 				5BEF04AE15B69512002DEA10 /* Foundation.framework in Frameworks */,
 				5BEF04B015B69512002DEA10 /* CoreGraphics.framework in Frameworks */,
@@ -93,6 +117,7 @@
 		5BEF04AA15B69512002DEA10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF050B15B7C19C002DEA10 /* Security.framework */,
 				5BEF04AB15B69512002DEA10 /* UIKit.framework */,
 				5BEF04AD15B69512002DEA10 /* Foundation.framework */,
 				5BEF04AF15B69512002DEA10 /* CoreGraphics.framework */,
@@ -130,6 +155,7 @@
 		5BEF04CC15B69628002DEA10 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF050615B6BD65002DEA10 /* SFHFKeychainUtils */,
 				5BEF04D015B696ED002DEA10 /* TXWeibo */,
 			);
 			name = Libraries;
@@ -138,7 +164,9 @@
 		5BEF04CE15B69639002DEA10 /* SIShareEngine */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF051315B7EBF5002DEA10 /* SIDialogView */,
 				5BEF04CF15B6969C002DEA10 /* SIDialogViewController */,
+				5BEF04EE15B69FB3002DEA10 /* SIShareCommonHeader.h */,
 			);
 			name = SIShareEngine;
 			sourceTree = "<group>";
@@ -150,6 +178,10 @@
 				5BEF04E815B69955002DEA10 /* SIBaseDialogViewController.m */,
 				5BEF04E915B69955002DEA10 /* SIQQWeiBoWebViewController.h */,
 				5BEF04EA15B69955002DEA10 /* SIQQWeiBoWebViewController.m */,
+				5BEF04F315B6A7F2002DEA10 /* SISKTXWeiboEngine.h */,
+				5BEF04F415B6A7F2002DEA10 /* SISKTXWeiboEngine.m */,
+				5BEF050D15B7DFF1002DEA10 /* SISKTestViewController.h */,
+				5BEF050E15B7DFF1002DEA10 /* SISKTestViewController.m */,
 			);
 			name = SIDialogViewController;
 			sourceTree = "<group>";
@@ -184,9 +216,31 @@
 		5BEF04E415B69851002DEA10 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF04F615B6AD44002DEA10 /* close_selected.png */,
+				5BEF04F715B6AD44002DEA10 /* close_selected@2x.png */,
+				5BEF04F815B6AD44002DEA10 /* close.png */,
+				5BEF04F915B6AD44002DEA10 /* close@2x.png */,
 				5BEF04E515B69861002DEA10 /* mm.jpg */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		5BEF050615B6BD65002DEA10 /* SFHFKeychainUtils */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF050715B6BD65002DEA10 /* SFHFKeychainUtils.h */,
+				5BEF050815B6BD65002DEA10 /* SFHFKeychainUtils.m */,
+			);
+			path = SFHFKeychainUtils;
+			sourceTree = "<group>";
+		};
+		5BEF051315B7EBF5002DEA10 /* SIDialogView */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF051415B7EC14002DEA10 /* SISKBaseDialogView.h */,
+				5BEF051515B7EC14002DEA10 /* SISKBaseDialogView.m */,
+			);
+			name = SIDialogView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +298,10 @@
 				5BEF04B615B69512002DEA10 /* InfoPlist.strings in Resources */,
 				5BEF04BF15B69512002DEA10 /* MainStoryboard.storyboard in Resources */,
 				5BEF04E615B69861002DEA10 /* mm.jpg in Resources */,
+				5BEF04FA15B6AD44002DEA10 /* close_selected.png in Resources */,
+				5BEF04FB15B6AD44002DEA10 /* close_selected@2x.png in Resources */,
+				5BEF04FC15B6AD44002DEA10 /* close.png in Resources */,
+				5BEF04FD15B6AD44002DEA10 /* close@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +323,10 @@
 				5BEF04E215B69707002DEA10 /* OpenSdkResponse.m in Sources */,
 				5BEF04EB15B69955002DEA10 /* SIBaseDialogViewController.m in Sources */,
 				5BEF04EC15B69955002DEA10 /* SIQQWeiBoWebViewController.m in Sources */,
+				5BEF04F515B6A7F3002DEA10 /* SISKTXWeiboEngine.m in Sources */,
+				5BEF050915B6BD65002DEA10 /* SFHFKeychainUtils.m in Sources */,
+				5BEF050F15B7DFF2002DEA10 /* SISKTestViewController.m in Sources */,
+				5BEF051615B7EC14002DEA10 /* SISKBaseDialogView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

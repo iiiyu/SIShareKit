@@ -76,4 +76,17 @@ typedef enum
  */
 - (void) refuseOauth:(NSURL *)url;
 
+
+/*
+ * 判断用户登录后的当前会话生命周期是否有效。
+ * @return 当前session有效,返回YES,否则, NO.
+ */
+-(BOOL)isSessionValid;
+
+/*
+ *自己添加的登出功能
+ *
+ */
+- (void)logOut;
+
 @end

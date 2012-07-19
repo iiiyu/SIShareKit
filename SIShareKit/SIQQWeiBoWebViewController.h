@@ -7,24 +7,34 @@
 //
 
 #import "SIBaseDialogViewController.h"
-#import "OpenSdkOauth.h"
-#import "OpenApi.h"
+#import "SIShareCommonHeader.h"
+
 //#import "OpenSdkTestAppDelegate.h"
 
-@interface SIQQWeiBoWebViewController : SIBaseDialogViewController {
+@class OpenApi;
+@class OpenSdkOauth;
+
+@protocol SISKTXWeiBoDialogDelegate <NSObject>
+- (void)TXDialogDidLoginSuccess;
+@end
+
+@interface SIQQWeiBoWebViewController : SIBaseDialogViewController <UIWebViewDelegate>{
     UIWebView *_webView;
-    NSIndexPath *_lastIndexPath;
-    UILabel *_titleLabel;
+//    NSIndexPath *_lastIndexPath;
+//    UILabel *_titleLabel;
     
-	NSArray* featureList;
-    NSMutableDictionary *_publishParams;
+//	NSArray* featureList;
+//    NSMutableDictionary *_publishParams;
     
-    OpenSdkOauth *_OpenSdkOauth;
+    OpenSdkOauth *openSdkOauth;
     OpenApi *_OpenApi;
     UIActivityIndicatorView *_indicatorView;
+    id<SISKTXWeiBoDialogDelegate> delegate;
 }
 
-@property ( nonatomic)UIWebView *webView;
-@property (nonatomic)UIActivityIndicatorView *indicatorView;
+@property (strong, nonatomic) UIWebView *webView;
+@property (strong, nonatomic) UIActivityIndicatorView *indicatorView;
+@property (strong, nonatomic) OpenSdkOauth *openSdkOauth;
+
 
 @end

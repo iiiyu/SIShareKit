@@ -37,6 +37,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="txLoginAction:" destination="2" eventType="touchUpInside" id="osh-tS-qqJ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Xxv-Wp-cHD">
                                 <rect key="frame" x="228" y="344" width="72" height="37"/>
@@ -49,6 +52,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="txLogoutAction:" destination="2" eventType="touchUpInside" id="m51-vx-ipj"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yXN-eq-fQD">
                                 <rect key="frame" x="228" y="389" width="72" height="37"/>
@@ -61,6 +67,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="txSendAction:" destination="2" eventType="touchUpInside" id="qbN-Ga-LXw"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="f5J-SZ-vOd">
                                 <rect key="frame" x="14" y="299" width="85" height="37"/>
@@ -148,6 +157,15 @@
     <resources>
         <image name="mm.jpg" width="224" height="112"/>
     </resources>
+    <classes>
+        <class className="SISKViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SISKViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageViewSend" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="textViewMessage" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

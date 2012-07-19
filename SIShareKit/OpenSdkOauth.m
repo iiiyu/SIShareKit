@@ -7,6 +7,10 @@
 //
 
 #import "OpenSdkOauth.h"
+#import "SFHFKeychainUtils.h"
+#import "SIShareCommonHeader.h"
+
+
 
 /*
  * oauth2.0授权及调用api接口请求的base url
@@ -42,6 +46,10 @@ static NSString *authPrefix = @"authorize";
         _appKey = [appKey copy];
 		_appSecret = [appSecret copy];
         _redirectURI = [[NSString alloc] initWithString:[OpenSdkBase getRedirectUri]];
+        if ([self isSessionValid]) {
+            [self readAuthorizeDataFromKeychain];
+        }
+        
 	}
 	return self;
 }
@@ -142,6 +150,9 @@ static NSString *authPrefix = @"authorize";
     self.openid = openid;
     self.openkey = openkey;
     self.expireIn = expireIn;
+    NSLog(@"expireIn:%@", expireIn);
+    //用户信息保存到本地
+    [self saveAuthorizeDataToKeychain];
     
     [OpenSdkBase showMessageBox:@"登录成功！"];
 }
@@ -184,5 +195,81 @@ static NSString *authPrefix = @"authorize";
         }
     }
 }
+
+
+- (void)saveAuthorizeDataToKeychain
+{
+//    self.accessToken = accessToken;
+//    self.accessSecret = accessSecret;
+//    self.openid = openid;
+//    self.openkey = openkey;
+//    self.expireIn = expireIn;
+    
+    
+    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
+    [SFHFKeychainUtils storeUsername:kWBKeychainUserID andPassword:self.openid forServiceName:serviceName updateExisting:YES error:nil];
+	[SFHFKeychainUtils storeUsername:kWBKeychainAccessToken andPassword:self.accessToken forServiceName:serviceName updateExisting:YES error:nil];
+	[SFHFKeychainUtils storeUsername:kWBKeychainExpireTime andPassword:self.expireIn forServiceName:serviceName updateExisting:YES error:nil];
+}
+
+- (void)readAuthorizeDataFromKeychain
+{
+    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
+    self.openid = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
+    self.accessToken = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
+    self.expireIn = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+}
+
+- (void)deleteAuthorizeDataInKeychain
+{
+//    self.userID = nil;
+//    self.accessToken = nil;
+//    self.expireTime = 0;
+    self.openid = nil;
+    self.accessToken = nil;
+    self.expireIn = nil;
+    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
+    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
+    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
+    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+//    
+//    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kWBKeychainServiceNameSuffix];
+//    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
+//	[SFHFKeychainUtils deleteItemForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
+//	[SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+}
+
+
+- (NSString *)urlSchemeString
+{
+    return [NSString stringWithFormat:@"%@%@", kTXURLSchemePrefix, self.appKey];
+}
+
+-(BOOL)isSessionValid
+{
+//    BOOL result = NO;
+    [self readAuthorizeDataFromKeychain];
+    NSDate *expirationDate =nil;
+    if (self.expireIn != nil) {
+        int expVal = [self.expireIn intValue];
+        if (expVal == 0) {
+            expirationDate = [NSDate distantFuture];
+        } else {
+            expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
+        } 
+    } 
+    return (self.openid != nil && self.accessToken != nil && self.expireIn != nil && NSOrderedDescending == [expirationDate compare:[NSDate date]]);
+    
+//    return result;
+}
+
+- (void)logOut
+{
+    _accessToken = nil;
+    _expireIn = nil;
+    _openid = nil;
+    [self deleteAuthorizeDataInKeychain];
+}
+
 
 @end

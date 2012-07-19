@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface SIBaseDialogViewController : UIViewController {
-    UIView *_backgroundView;
-    UIButton *_cancelButton;
+//    UIView *_backgroundView;
+//    UIButton *_cancelButton;
     BOOL _showingKeyboard;
     UIDeviceOrientation _orientation;
 }
 
-@property ( nonatomic)UIView *backgroundView;
-@property ( nonatomic)UIButton *cancelButton;
+@property (strong, nonatomic)UIView *backgroundView;
+@property (strong, nonatomic)UIButton *cancelButton;
 
 - (void)show;
 - (void)close;

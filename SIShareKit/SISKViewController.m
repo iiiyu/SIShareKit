@@ -7,6 +7,9 @@
 //
 
 #import "SISKViewController.h"
+//#import "OpenApi.h"
+//#import "OpenSdkOauth.h"
+#import "SISKTXWeiboEngine.h"
 
 @interface SISKViewController ()
 
@@ -38,11 +41,6 @@
 }
 
 #pragma mark - UITextViewDelegate
-//- (void)textViewDidEndEditing:(UITextView *)textView
-//{
-//    [textView resignFirstResponder];
-//}
-
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
@@ -51,5 +49,21 @@
     }
     return YES;
 }
+
+#pragma mark - tx button action 
+- (IBAction)txLoginAction:(id)sender {
+    SISKTXWeiboEngine *engine = [SISKTXWeiboEngine sharedSISKTXWeiboEngine];
+    if (![engine isSessionValid]) {
+        [engine showLogin];
+    }
+
+}
+
+- (IBAction)txLogoutAction:(id)sender {
+}
+
+- (IBAction)txSendAction:(id)sender {
+}
+
 
 @end
