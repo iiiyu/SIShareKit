@@ -13,6 +13,10 @@
 		5B55058415C8386A00BFFC7C /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B55057C15C8386A00BFFC7C /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5B55058515C8386A00BFFC7C /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B55057E15C8386A00BFFC7C /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5B55058615C8386A00BFFC7C /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B55058015C8386A00BFFC7C /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5B55058B15C83B4B00BFFC7C /* tx-send-bg-land.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B55058715C83B4B00BFFC7C /* tx-send-bg-land.png */; };
+		5B55058C15C83B4B00BFFC7C /* tx-send-bg-land@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B55058815C83B4B00BFFC7C /* tx-send-bg-land@2x.png */; };
+		5B55058D15C83B4B00BFFC7C /* tx-send-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B55058915C83B4B00BFFC7C /* tx-send-bg.png */; };
+		5B55058E15C83B4B00BFFC7C /* tx-send-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B55058A15C83B4B00BFFC7C /* tx-send-bg@2x.png */; };
 		5B830FD215BD3AFF0024DF77 /* SISKQQSendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B830FD115BD3AFF0024DF77 /* SISKQQSendView.m */; };
 		5B830FE015BD40A20024DF77 /* bg_land.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B830FD415BD40A20024DF77 /* bg_land.png */; };
 		5B830FE115BD40A20024DF77 /* bg_land@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B830FD515BD40A20024DF77 /* bg_land@2x.png */; };
@@ -68,6 +72,10 @@
 		5B55057E15C8386A00BFFC7C /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		5B55057F15C8386A00BFFC7C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		5B55058015C8386A00BFFC7C /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		5B55058715C83B4B00BFFC7C /* tx-send-bg-land.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tx-send-bg-land.png"; sourceTree = "<group>"; };
+		5B55058815C83B4B00BFFC7C /* tx-send-bg-land@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tx-send-bg-land@2x.png"; sourceTree = "<group>"; };
+		5B55058915C83B4B00BFFC7C /* tx-send-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tx-send-bg.png"; sourceTree = "<group>"; };
+		5B55058A15C83B4B00BFFC7C /* tx-send-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tx-send-bg@2x.png"; sourceTree = "<group>"; };
 		5B830FD015BD3AFF0024DF77 /* SISKQQSendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISKQQSendView.h; sourceTree = "<group>"; };
 		5B830FD115BD3AFF0024DF77 /* SISKQQSendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISKQQSendView.m; sourceTree = "<group>"; };
 		5B830FD415BD40A20024DF77 /* bg_land.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_land.png; sourceTree = "<group>"; };
@@ -231,6 +239,10 @@
 		5BB1C3C715BD22B800ADBBC6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5B55058715C83B4B00BFFC7C /* tx-send-bg-land.png */,
+				5B55058815C83B4B00BFFC7C /* tx-send-bg-land@2x.png */,
+				5B55058915C83B4B00BFFC7C /* tx-send-bg.png */,
+				5B55058A15C83B4B00BFFC7C /* tx-send-bg@2x.png */,
 				5B830FD415BD40A20024DF77 /* bg_land.png */,
 				5B830FD515BD40A20024DF77 /* bg_land@2x.png */,
 				5B830FD615BD40A20024DF77 /* bg.png */,
@@ -418,6 +430,10 @@
 				5B830FE915BD40A20024DF77 /* delete@2x.png in Resources */,
 				5B830FEA15BD40A20024DF77 /* logo.png in Resources */,
 				5B830FEB15BD40A20024DF77 /* logo@2x.png in Resources */,
+				5B55058B15C83B4B00BFFC7C /* tx-send-bg-land.png in Resources */,
+				5B55058C15C83B4B00BFFC7C /* tx-send-bg-land@2x.png in Resources */,
+				5B55058D15C83B4B00BFFC7C /* tx-send-bg.png in Resources */,
+				5B55058E15C83B4B00BFFC7C /* tx-send-bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
