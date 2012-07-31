@@ -10,12 +10,12 @@
 #import "OpenApi.h"
 #import "OpenSdkOauth.h"
 #import "SIShareCommonHeader.h"
-#import "SIQQWeiBoWebViewController.h"
-#import "SISKTestViewController.h"
+#import "SISKQQWeiBoDialogView.h"
+//#import "SISKTestViewController.h"
 
 @interface SISKTXWeiboEngine()
 
-@property (strong, nonatomic) OpenApi *openApi;
+
 @property (strong, nonatomic) OpenSdkOauth *openSdkOauth;
 
 @end
@@ -23,6 +23,7 @@
 @implementation SISKTXWeiboEngine
 @synthesize openApi = _openApi;
 @synthesize openSdkOauth = _openSdkOauth;
+//@synthesize delegate = _delegate;
 
 + (SISKTXWeiboEngine *)sharedSISKTXWeiboEngine
 {
@@ -39,7 +40,9 @@
     if (self) {
         _openSdkOauth = [[OpenSdkOauth alloc] initAppKey:[OpenSdkBase getAppKey] appSecret:[OpenSdkBase getAppSecret]];
         _openSdkOauth.oauthType = oauthMode;
-//        _OpenApi = [[OpenApi alloc] initForApi:_OpenSdkOauth.appKey appSecret:_OpenSdkOauth.appSecret accessToken:_OpenSdkOauth.accessToken accessSecret:_OpenSdkOauth.accessSecret openid:_OpenSdkOauth.openid oauthType:_OpenSdkOauth.oauthType];
+        _openApi = [[OpenApi alloc] initForApi:_openSdkOauth.appKey appSecret:_openSdkOauth.appSecret accessToken:_openSdkOauth.accessToken accessSecret:_openSdkOauth.accessSecret openid:_openSdkOauth.openid oauthType:_openSdkOauth.oauthType];
+//        _openApi.delegate = delegate;
+//        delegate = _openApi.delegate;
     }
     return self;
 }
@@ -54,12 +57,25 @@
 {
 //    SIQQWeiBoWebViewController *viewController = [[SIQQWeiBoWebViewController alloc] init];
 //    viewController.openSdkOauth = _openSdkOauth;
+////    [viewController show];
+////    SISKTestViewController *viewController = [[SISKTestViewController alloc] init];
 //    [viewController show];
-    SISKTestViewController *viewController = [[SISKTestViewController alloc] init];
-    [viewController show];
+    SISKQQWeiBoDialogView *view = [[SISKQQWeiBoDialogView alloc] init];
+    [view showLoginWebView];
+
 
 
 }
+
+- (void)sendPublishWeiBoWithImage:(NSString *)filePath weiboContent:(NSString *)weiboContent
+{
+//    [_openApi publishWeiboWithImage:filePath weiboContent:weiboContent jing:@"112.123456" wei:@"33.111252" format:@"xml" clientip:@"CLIENTIP" syncflag:@"1"];  
+        [_openApi publishWeiboWithImage:filePath weiboContent:weiboContent jing:@"" wei:@"" format:@"xml" clientip:@"CLIENTIP" syncflag:@"1"];  
+//    NSLog(@"1");
+}
+
+//    [_OpenApi publishWeiboWithImage:filePath weiboContent:weiboContent jing:@"112.123456" wei:@"33.111252" format:@"xml" clientip:@"CLIENTIP" syncflag:@"1"];  
+
 
 - (void)logout
 {
@@ -67,6 +83,7 @@
         [_openSdkOauth logOut];
     }
 }
+
 
 
 

@@ -43,6 +43,7 @@
 
 @synthesize filePathName = _filePathName;
 @synthesize retCode = _retCode;
+@synthesize delegate = _delegate;
 
 #pragma -
 #pragma mark private method
@@ -171,15 +172,27 @@
     
     if (resultStr == nil) {
         NSLog(@"没有授权或授权失败");
-        [OpenSdkBase showMessageBox:@"没有授权或授权失败"];
+        if ([[self delegate] respondsToSelector:@selector(sendFaile:)])
+        {
+            [[self delegate] sendFaile:self];
+        }
+//        [OpenSdkBase showMessageBox:@"没有授权或授权失败"];
         return;
     }
     
     if (self.retCode == resSuccessed) {
-        [OpenSdkBase showMessageBox:resultStr];
+        if ([[self delegate] respondsToSelector:@selector(sendSuccess:)])
+        {
+            [[self delegate] sendSuccess:self];
+        }
+//        [OpenSdkBase showMessageBox:resultStr];
     }
     else {
-        [OpenSdkBase showMessageBox:@"调用t/add_pic接口失败"];
+        if ([[self delegate] respondsToSelector:@selector(sendInterfaceFaile:)])
+        {
+            [[self delegate] sendInterfaceFaile:self];
+        }
+//        [OpenSdkBase showMessageBox:@"调用t/add_pic接口失败"];
     }
 }
 

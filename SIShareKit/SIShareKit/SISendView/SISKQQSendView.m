@@ -1,14 +1,14 @@
 //
-//  SISKBaseDialogView.m
+//  SISKQQSendView.m
 //  SIShareKit
 //
-//  Created by ChenYu Xiao on 12-7-19.
+//  Created by ChenYu Xiao on 12-7-23.
 //  Copyright (c) 2012年 sumi. All rights reserved.
 //
 
-#import "SISKBaseDialogView.h"
+#import "SISKQQSendView.h"
 
-@implementation SISKBaseDialogView
+@implementation SISKQQSendView
 
 - (id)initWithFrame:(CGRect)frame
 {

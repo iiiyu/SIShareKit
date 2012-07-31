@@ -9,6 +9,11 @@
 #import "OpenSdkBase.h"
 #import "SIShareCommonHeader.h"
 
+
+//@interface OpenSdkBase() <UIAlertViewDelegate>
+//
+//@end
+
 @implementation OpenSdkBase
 
 /*
@@ -78,6 +83,7 @@
 + (void) showMessageBox:(NSString*)content{
 	
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//    alert.delegate = self;
 	alert.tag = 'e';
 	[alert show];
 	[alert release];
@@ -264,5 +270,21 @@ static inline void output64Chunk( int c1, int c2, int c3, int pads, NSMutableDat
 	
 	return retUrl;
 }
+
+//
+//#pragma mark - UIAlertDelegate
+//
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+////    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+//    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+//    if ([alertView.message isEqualToString:@"没有授权或授权失败"]) {
+//        if ([buttonTitle isEqualToString:@"确定"]){ 
+////            NSLog(@"User pressed the Yes button.");
+//            
+//            
+//        }
+//    }
+//}
 
 @end

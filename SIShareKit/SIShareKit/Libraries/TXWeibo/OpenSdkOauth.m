@@ -46,9 +46,9 @@ static NSString *authPrefix = @"authorize";
         _appKey = [appKey copy];
 		_appSecret = [appSecret copy];
         _redirectURI = [[NSString alloc] initWithString:[OpenSdkBase getRedirectUri]];
-        if ([self isSessionValid]) {
+//        if ([self isSessionValid]) {
             [self readAuthorizeDataFromKeychain];
-        }
+//        }
         
 	}
 	return self;
@@ -209,7 +209,7 @@ static NSString *authPrefix = @"authorize";
     NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
     [SFHFKeychainUtils storeUsername:kWBKeychainUserID andPassword:self.openid forServiceName:serviceName updateExisting:YES error:nil];
 	[SFHFKeychainUtils storeUsername:kWBKeychainAccessToken andPassword:self.accessToken forServiceName:serviceName updateExisting:YES error:nil];
-	[SFHFKeychainUtils storeUsername:kWBKeychainExpireTime andPassword:self.expireIn forServiceName:serviceName updateExisting:YES error:nil];
+//	[SFHFKeychainUtils storeUsername:kWBKeychainExpireTime andPassword:self.expireIn forServiceName:serviceName updateExisting:YES error:nil];
 }
 
 - (void)readAuthorizeDataFromKeychain
@@ -217,7 +217,7 @@ static NSString *authPrefix = @"authorize";
     NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
     self.openid = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
     self.accessToken = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
-    self.expireIn = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+//    self.expireIn = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
 }
 
 - (void)deleteAuthorizeDataInKeychain
@@ -231,7 +231,7 @@ static NSString *authPrefix = @"authorize";
     NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
     [SFHFKeychainUtils deleteItemForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
     [SFHFKeychainUtils deleteItemForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
-    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+//    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
 //    
 //    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kWBKeychainServiceNameSuffix];
 //    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
@@ -249,16 +249,19 @@ static NSString *authPrefix = @"authorize";
 {
 //    BOOL result = NO;
     [self readAuthorizeDataFromKeychain];
-    NSDate *expirationDate =nil;
-    if (self.expireIn != nil) {
-        int expVal = [self.expireIn intValue];
-        if (expVal == 0) {
-            expirationDate = [NSDate distantFuture];
-        } else {
-            expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
-        } 
-    } 
-    return (self.openid != nil && self.accessToken != nil && self.expireIn != nil && NSOrderedDescending == [expirationDate compare:[NSDate date]]);
+//    NSDate *expirationDate =nil;
+//    NSLog(@"%@", self.expireIn);
+//    if (self.expireIn != nil) {
+//        int expVal = [self.expireIn intValue];
+//        if (expVal == 0) {
+//            expirationDate = [NSDate distantFuture];
+//        } else {
+//            expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
+//        } 
+//    } 
+//    return (self.openid != nil && self.accessToken != nil && self.expireIn != nil && NSOrderedDescending == [expirationDate compare:[NSDate date]]);
+    return (self.openid != nil && self.accessToken != nil);
+
     
 //    return result;
 }

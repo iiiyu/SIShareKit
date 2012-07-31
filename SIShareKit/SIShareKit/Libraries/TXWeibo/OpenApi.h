@@ -13,6 +13,21 @@
 #import "OpenSdkOauth.h"
 #import "OpenSdkResponse.h"
 
+@class OpenApi;
+//Define the protocol for the delegate
+@protocol OpenApiDelegate <NSObject>
+
+// 发送成功
+- (void)sendSuccess:(OpenApi *)openApi;
+
+// 发送失败
+- (void)sendFaile:(OpenApi *)openApi;
+
+// 调用接口失败
+- (void)sendInterfaceFaile:(OpenApi *)openApi;
+
+@end
+
 @interface OpenApi : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 
     OpenSdkOauth *_OpenSdkOauth;
@@ -22,10 +37,13 @@
     NSMutableDictionary *_publishParams;
     NSString *_filePathName;
     uint16_t _retCode;
+    
+    id<OpenApiDelegate> delegate;
 }
 
 @property (nonatomic,retain) NSString *filePathName;
 @property (nonatomic) uint16_t retCode;
+@property (nonatomic, assign) id<OpenApiDelegate> delegate;
 /*
  * 初始化
  */

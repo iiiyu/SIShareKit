@@ -7,9 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OpenApi.h"
+
+@class OpenApi;
+
+//@class SISKTXWeiboEngine;
+//@protocol SISKTXWeiboEngineDelegate <OpenApiDelegate>
+//
+////- (void)sendSuccess:(SISKTXWeiboEngine *)engine;
+//
+//@end
+
 
 @interface SISKTXWeiboEngine : NSObject
+//{
+//    id<SISKTXWeiboEngineDelegate> delegate;
+//}
+//@property (strong, nonatomic) id<SISKTXWeiboEngineDelegate> delegate;
+//
+//
 
+@property (strong, nonatomic) OpenApi *openApi;
 
 #pragma mark - Init
 /*
@@ -39,5 +57,8 @@
  * @param delegate 实现RenrenDelegate协议的类型对象。
  */
 //- (void)logout:(id<RenrenDelegate>)delegate;
+- (void)logout;
+
+- (void)sendPublishWeiBoWithImage:(NSString *)filePath weiboContent:(NSString *)weiboContent;
 
 @end
