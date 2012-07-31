@@ -81,24 +81,11 @@
 }
 
 - (IBAction)testViewAction:(id)sender {
-    //    SISKBaseDialogView *view = [[SISKBaseDialogView alloc] initWithFrame:self.view.frame];
-    //    [self.view addSubview:view];
-//    SISKQQWeiBoDialogView *view = [[SISKQQWeiBoDialogView alloc] initWithFrame:self.view.frame];
-//    [view showLoginWebView];
+
 }
 
 - (IBAction)mmSendAction:(id)sender {
-    SISKTXWeiboEngine *engine = [SISKTXWeiboEngine sharedSISKTXWeiboEngine];
-    engine.openApi.delegate = self;
-    if (![engine isSessionValid]) {
-        [engine showLogin];
-    }else {
-//        SISKQQSendView *sendView = [[SISKQQSendView alloc] initWithText:@"test" image:_imageViewSend.image engine:engine];
-//        [sendView show:YES];
-//        SISKQQSendView *sendView = [[SISKQQSendView alloc] initWithText:@"text QQ" image:];
-//        sendView.qqSendDelegate = self;
-//        [sendView show:YES];
-    }
+
 }
 
 

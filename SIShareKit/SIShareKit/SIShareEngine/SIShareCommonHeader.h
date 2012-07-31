@@ -19,12 +19,12 @@ enum {
 typedef NSUInteger SISKDialogOperateType;
 
 
-#define kTXAppKey @"801192322"
-#define kTXAPPSecret @"e01c93940c1a032501d5d8380dac56b6"
+#define kTXAppKey @"801205233"
+#define kTXAPPSecret @"5607611faafa29d17c6a46ec7429b43f"
 /*
  * Todo：请正确填写您的应用网址，否则将导致TX微博授权失败
  */
-#define redirect_uri @"http://qairapp.com/"
+#define redirect_uri @"https://github.com/iiiyu/SIShareKit"
 
 /*
  * Todo: 请填写您需要的登录授权方式，目前支持webview和浏览器两种方式，分别为InWebView和InSafari，其中浏览器方式需要手动获取授权码，不建议使用
