@@ -1,3 +1,0 @@
-[submodule "SIShareKit/libraries/SBJSON"]
-	path = SIShareKit/libraries/SBJSON
-	url = git://github.com/stig/json-framework.git

@@ -11,8 +11,25 @@
 #import "OpenSdkOauth.h"
 #import "OpenApi.h"
 
-@interface SISKQQWeiBoDialogView : SISKBaseDialogView <UIWebViewDelegate>
+@class SISKQQWeiBoDialogView;
 
-- (void)showLoginWebView;
+@protocol SISKQQWeiBoDialogViewDelegate <NSObject>
+
+@optional
+
+// 登录成功
+- (void)oauthDidSuccess:(SISKQQWeiBoDialogView *)dialogView;
+
+// 登录失败
+- (void)oauthDidFailed:(SISKQQWeiBoDialogView *)dialogView;
+
+@end
+
+@interface SISKQQWeiBoDialogView : SISKBaseDialogView <UIWebViewDelegate>
+//{
+//    id<SISKQQWeiBoDialogViewDelegate> delegate;
+//}
+//
+@property (unsafe_unretained, nonatomic) id<SISKQQWeiBoDialogViewDelegate> delegate;
 
 @end

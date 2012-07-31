@@ -8,6 +8,21 @@
 
 #import "SISendView.h"
 
+@class SISKQQSendView;
+
+@protocol SISKQQSendViewDelegate <NSObject>
+@optional
+- (void)buttonActionWillSendWeibo:(SISKQQSendView *)sendView
+                        withImage:(UIImage *)image 
+                       andMessage:(NSString *)message;
+@end
+
 @interface SISKQQSendView : SISendView
+
+@property (unsafe_unretained, nonatomic) id<SISKQQSendViewDelegate> qqSendDelegate;
+
+//- (id)initWithText:(NSString *)text image:(UIImage *)image engine:(SISKTXWeiboEngine *)txEngine;
+
+- (id)initWithText:(NSString *)text image:(UIImage *)image;
 
 @end

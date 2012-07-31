@@ -8,24 +8,60 @@
 
 #import <Foundation/Foundation.h>
 #import "OpenApi.h"
-
+//#import "SISKQQWeiBoDialogView.h"
+#import "OpenSdkOauth.h"
+#import "SISKQQWeiBoDialogView.h"
 @class OpenApi;
 
-//@class SISKTXWeiboEngine;
-//@protocol SISKTXWeiboEngineDelegate <OpenApiDelegate>
-//
-////- (void)sendSuccess:(SISKTXWeiboEngine *)engine;
-//
-//@end
+@class SISKTXWeiboEngine;
+@protocol SISKTXWeiboEngineDelegate <NSObject>
+
+@optional
+// 登录成功
+- (void)oauthDidSuccess:(SISKTXWeiboEngine *)engine;
+
+// 登录失败
+- (void)oauthDidFailed:(SISKTXWeiboEngine *)engine withErrorNumber:(NSInteger)errorNumber;
+
+// 拒绝授权
+- (void)userRefuseAuthorize:(SISKTXWeiboEngine *)engine;
+
+// 发送成功
+- (void)sendSuccess:(SISKTXWeiboEngine *)engine;
+
+// 发送失败
+- (void)sendFailed:(SISKTXWeiboEngine *)engine;
+
+// 调用接口失败
+- (void)sendInterfaceFaile:(SISKTXWeiboEngine *)engine;
+
+// 验证失败
+- (void)authorizationFailedOrDidNotAuthorize:(SISKTXWeiboEngine *)engine;
+
+// 调用成功
+- (void)callFunctionSuccess:(SISKTXWeiboEngine *)engine withResult:(NSString *)resultString;
+
+// 调用失败
+- (void)callFunctionFailed:(SISKTXWeiboEngine *)engine;
+
+// 获取用户信息时候调用接口失败
+- (void)callTheInterfaceFailed:(SISKTXWeiboEngine *)engine;
+
+// 登出完成
+- (void)logoutDidSuccess:(SISKTXWeiboEngine *)engine;
 
 
-@interface SISKTXWeiboEngine : NSObject
-//{
+
+@end
+
+
+@interface SISKTXWeiboEngine : NSObject<OpenSdkOauthDelegate,OpenApiDelegate, SISKQQWeiBoDialogViewDelegate>
+{
 //    id<SISKTXWeiboEngineDelegate> delegate;
-//}
-//@property (strong, nonatomic) id<SISKTXWeiboEngineDelegate> delegate;
-//
-//
+}
+@property (unsafe_unretained, nonatomic) id<SISKTXWeiboEngineDelegate> delegate;
+
+
 
 @property (strong, nonatomic) OpenApi *openApi;
 
@@ -59,6 +95,19 @@
 //- (void)logout:(id<RenrenDelegate>)delegate;
 - (void)logout;
 
+/*
+ *用filepath发微博
+ */
 - (void)sendPublishWeiBoWithImage:(NSString *)filePath weiboContent:(NSString *)weiboContent;
+
+/*
+ *用UIImage发微博
+ */
+- (void)sendPublishWeiboWithUIImage:(UIImage *)image weiboContent:(NSString *)weiboContent;
+
+/*
+ *获得用户名
+ */
+- (NSString *)getUserName;
 
 @end

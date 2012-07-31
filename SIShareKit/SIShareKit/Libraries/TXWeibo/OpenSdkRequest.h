@@ -11,7 +11,21 @@
 #import "OpenSdkBase.h"
 #import "JSONKit.h"
 
+@class OpenSdkRequest;
+
+@protocol OpenSdkRequestDelegate <NSObject>
+
+@optional
+- (void)authorizationFailedOrDidNotAuthorize:(OpenSdkRequest *)request;
+
+@end
+
 @interface OpenSdkRequest : NSObject
+{
+//    id<OpenSdkRequestDelegate> delegate;
+}
+
+@property (unsafe_unretained, nonatomic) id<OpenSdkRequestDelegate> delegate;
 
 /*
  * 发送API接口请求，并接受返回的数据
@@ -27,4 +41,6 @@
 
 
 @end
+
+
 

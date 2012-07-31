@@ -10,8 +10,11 @@
 //#import "OpenApi.h"
 //#import "OpenSdkOauth.h"
 #import "SISKTXWeiboEngine.h"
+//#import "SISKBaseDialogView.h"
+//#import "SISKQQWeiBoDialogView.h"
+#import "SISKQQSendView.h"
 
-@interface SISKViewController ()
+@interface SISKViewController () <OpenApiDelegate>
 
 @end
 
@@ -56,14 +59,63 @@
     if (![engine isSessionValid]) {
         [engine showLogin];
     }
-
+    
 }
 
 - (IBAction)txLogoutAction:(id)sender {
+    SISKTXWeiboEngine *engine = [SISKTXWeiboEngine sharedSISKTXWeiboEngine];
+    if ([engine isSessionValid]) {
+        [engine logout];
+    }
 }
 
 - (IBAction)txSendAction:(id)sender {
+    SISKTXWeiboEngine *engine = [SISKTXWeiboEngine sharedSISKTXWeiboEngine];
+    engine.openApi.delegate = self;
+    if (![engine isSessionValid]) {
+        [engine showLogin];
+    }else {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"mm" ofType:@"jpg"];
+        [engine sendPublishWeiBoWithImage:filePath weiboContent:_textViewMessage.text];
+    }
 }
 
+- (IBAction)testViewAction:(id)sender {
+    //    SISKBaseDialogView *view = [[SISKBaseDialogView alloc] initWithFrame:self.view.frame];
+    //    [self.view addSubview:view];
+//    SISKQQWeiBoDialogView *view = [[SISKQQWeiBoDialogView alloc] initWithFrame:self.view.frame];
+//    [view showLoginWebView];
+}
+
+- (IBAction)mmSendAction:(id)sender {
+    SISKTXWeiboEngine *engine = [SISKTXWeiboEngine sharedSISKTXWeiboEngine];
+    engine.openApi.delegate = self;
+    if (![engine isSessionValid]) {
+        [engine showLogin];
+    }else {
+//        SISKQQSendView *sendView = [[SISKQQSendView alloc] initWithText:@"test" image:_imageViewSend.image engine:engine];
+//        [sendView show:YES];
+//        SISKQQSendView *sendView = [[SISKQQSendView alloc] initWithText:@"text QQ" image:];
+//        sendView.qqSendDelegate = self;
+//        [sendView show:YES];
+    }
+}
+
+
+#pragma mark - OpenApidelegate
+-(void)sendSuccess:(OpenApi *)openApi
+{
+    NSLog(@"success");
+}
+
+-(void)sendFaile:(OpenApi *)openApi
+{
+    NSLog(@"faile");
+}
+
+- (void)sendInterfaceFaile:(OpenApi *)openApi
+{
+    NSLog(@"interface faile");
+}
 
 @end

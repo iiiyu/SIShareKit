@@ -9,6 +9,10 @@
 #import "OpenApi.h"
 //#import "FeatureListViewController.h"
 
+@interface OpenApi() <OpenSdkRequestDelegate>
+
+@end
+
 @implementation OpenApi
 
 #pragma -
@@ -39,11 +43,11 @@
  */
 //#define AppFrom @"ios-sdk1.2"
 
-#define AppFrom @"fuckQQ"
+#define AppFrom @"fuckQQfuck360"
 
 @synthesize filePathName = _filePathName;
 @synthesize retCode = _retCode;
-@synthesize delegate = _delegate;
+@synthesize delegate;//= _delegate;
 
 #pragma -
 #pragma mark private method
@@ -122,6 +126,7 @@
         _OpenSdkOauth.accessSecret = [accessSecret copy];
         _OpenSdkOauth.openid = [openid copy];
         _OpenSdkOauth.oauthType = oauthType;
+        _OpenSdkRequest.delegate = self;
 	}
 	return self;
 }
@@ -137,6 +142,7 @@
     
     [self getPublicParams];
     [self setPublishParams:weiboContent jing:jing wei:wei format:format clientip:clientip syncflag:syncflag];
+    [_OpenSdkOauth readAuthorizeDataFromKeychain];
     
     NSString *resultStr = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:PostMethod oauth:_OpenSdkOauth params:_publishParams files:nil oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
     
@@ -167,33 +173,84 @@
     _publishParams = [NSMutableDictionary dictionary];
     [self getPublicParams];
     [self setPublishParams:weiboContent jing:jing wei:wei format:format clientip:clientip syncflag:syncflag];
+    
+    [_OpenSdkOauth readAuthorizeDataFromKeychain];
 
     NSString *resultStr = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:PostMethod oauth:_OpenSdkOauth params:_publishParams files:files oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
     
     if (resultStr == nil) {
         NSLog(@"没有授权或授权失败");
-        if ([[self delegate] respondsToSelector:@selector(sendFaile:)])
-        {
-            [[self delegate] sendFaile:self];
+        if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+            [delegate authorizationFailedOrDidNotAuthorize:self];
         }
-//        [OpenSdkBase showMessageBox:@"没有授权或授权失败"];
         return;
     }
     
     if (self.retCode == resSuccessed) {
-        if ([[self delegate] respondsToSelector:@selector(sendSuccess:)])
-        {
-            [[self delegate] sendSuccess:self];
+        NSLog(@"发送成功");
+        if ([[self delegate] respondsToSelector:@selector(sendSuccess:)]) {
+            [delegate sendSuccess:self];
         }
-//        [OpenSdkBase showMessageBox:resultStr];
+        
     }
     else {
-        if ([[self delegate] respondsToSelector:@selector(sendInterfaceFaile:)])
+        NSLog(@"调用t/add_pic接口失败");
+        if ([[self delegate] respondsToSelector:@selector(callTheInterfaceFailed:)])
         {
-            [[self delegate] sendInterfaceFaile:self];
+            [[self delegate] callTheInterfaceFailed:self];
         }
-//        [OpenSdkBase showMessageBox:@"调用t/add_pic接口失败"];
     }
+}
+
+- (void) publishWeiboWithUIImage:(UIImage *)image weiboContent:(NSString *)weiboContent jing:(NSString *)jing wei:(NSString *)wei format:(NSString *)format clientip:(NSString *)clientip syncflag:(NSString *)syncflag {
+    NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [cachePath stringByAppendingPathComponent:@"tmp.png"];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData* imageData  = UIImageJPEGRepresentation(image, 1.0);
+        [imageData writeToFile:filePath atomically:NO];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *requestUrl = [self getApiBaseUrl:TAddPicSuffix];
+            
+            NSMutableDictionary *files = [NSMutableDictionary dictionary];
+            [files setObject:filePath forKey:@"pic"];
+            
+            NSData *imageData = [NSData dataWithContentsOfFile:_filePathName];
+            NSLog(@"imageData size in publish:%d", [imageData length]);
+            
+            _publishParams = [NSMutableDictionary dictionary];
+            [self getPublicParams];
+            [self setPublishParams:weiboContent jing:jing wei:wei format:format clientip:clientip syncflag:syncflag];
+            
+            [_OpenSdkOauth readAuthorizeDataFromKeychain];
+            
+            NSString *resultStr = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:PostMethod oauth:_OpenSdkOauth params:_publishParams files:files oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
+            
+            if (resultStr == nil) {
+                NSLog(@"没有授权或授权失败");
+                if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+                    [delegate authorizationFailedOrDidNotAuthorize:self];
+                }
+                return;
+            }
+            
+            if (self.retCode == resSuccessed) {
+                NSLog(@"发送成功");
+                if ([[self delegate] respondsToSelector:@selector(sendSuccess:)]) {
+                    [delegate sendSuccess:self];
+                }
+            }
+            else {
+                NSLog(@"调用t/add_pic接口失败");
+                if ([[self delegate] respondsToSelector:@selector(callTheInterfaceFailed:)])
+                {
+                    [[self delegate] callTheInterfaceFailed:self];
+                }
+            }
+        });
+    });
+    
 }
 
 #pragma -
@@ -208,11 +265,16 @@
     [_publishParams setObject:format forKey:@"format"];
     [self getPublicParams];
     
+    [_OpenSdkOauth readAuthorizeDataFromKeychain];
+    
     NSString *resultStr = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:GetMethod oauth:_OpenSdkOauth params:_publishParams files:nil oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
     
     if (resultStr == nil) {
         NSLog(@"没有授权或授权失败");
-        [OpenSdkBase showMessageBox:@"没有授权或授权失败"];
+        if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+            [delegate authorizationFailedOrDidNotAuthorize:self];
+        }
+//        [OpenSdkBase showMessageBox:@"没有授权或授权失败"];
         return;
     }
     
@@ -222,8 +284,11 @@
         if (ret == 2) {
 
             if (_OpenSdkResponse.ret == 3 && _OpenSdkResponse.errcode == 1) {
-                [OpenSdkBase showMessageBox:resultStr];
-                [OpenSdkBase showMessageBox:@"用户授权已失效，需要重新授权"];
+//                [OpenSdkBase showMessageBox:resultStr];
+//                [OpenSdkBase showMessageBox:@"用户授权已失效，需要重新授权"];
+                if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+                    [delegate authorizationFailedOrDidNotAuthorize:self];
+                }
             }
         }
 
@@ -232,6 +297,54 @@
     else {
         [OpenSdkBase showMessageBox:@"调用user/info接口失败"];
     }
+}
+
+- (NSString *) newGetUserInfo:(NSString *)format {
+    
+    NSString *requestUrl = [self getApiBaseUrl:UserInfoSuffix];
+    
+    _publishParams = [NSMutableDictionary dictionary];
+    
+    [_publishParams setObject:format forKey:@"format"];
+    [self getPublicParams];
+    
+    [_OpenSdkOauth readAuthorizeDataFromKeychain];
+    
+    NSString *resultStr = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:GetMethod oauth:_OpenSdkOauth params:_publishParams files:nil oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
+    
+    
+    
+    if (resultStr == nil) {
+        NSLog(@"没有授权或授权失败");
+        if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+            [delegate authorizationFailedOrDidNotAuthorize:self];
+        }
+    }
+    
+    if (self.retCode == resSuccessed) {
+        _OpenSdkResponse = [[OpenSdkResponse alloc] init];
+        NSInteger ret = [_OpenSdkResponse parseData:resultStr];  //解析json数据
+        if (ret == 2) {
+            if (_OpenSdkResponse.ret == 3 && _OpenSdkResponse.errcode == 1) {
+                NSLog(@"用户授权已失效，需要重新授权");
+                if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+                    [delegate authorizationFailedOrDidNotAuthorize:self];
+                }
+            }
+        }
+        if ([[self delegate] respondsToSelector:@selector(callFunctionSuccess:withResult:)]){
+            [delegate callFunctionSuccess:self withResult:resultStr];
+        }
+    }
+    else {
+        NSLog(@"调用user/info接口失败");
+        if ([[self delegate] respondsToSelector:@selector(callTheInterfaceFailed:)]) {
+            [delegate callTheInterfaceFailed:self];
+        }
+    }
+    return resultStr;
+    
+//    return nil;
 }
 
 #pragma -
@@ -288,7 +401,8 @@
         
         _publishParams = [NSMutableDictionary dictionary];
         [self getPublicParams];
-        [self setFriendListParams:format reqnum:reqnum startIndex:startIndex mode:nil install:install]; 
+        [self setFriendListParams:format reqnum:reqnum startIndex:startIndex mode:nil install:install];
+        [_OpenSdkOauth readAuthorizeDataFromKeychain];
         
         NSString *resultTmp = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:GetMethod oauth:_OpenSdkOauth params:_publishParams files:nil oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
         
@@ -332,7 +446,9 @@
     
     _publishParams = [NSMutableDictionary dictionary];
     [self getPublicParams];
-    [self setFriendListParams:format reqnum:reqnum startIndex:startIndex mode:mode install:install]; 
+    [self setFriendListParams:format reqnum:reqnum startIndex:startIndex mode:mode install:install];
+    
+    [_OpenSdkOauth readAuthorizeDataFromKeychain];
     
     NSString *resultStr = [_OpenSdkRequest sendApiRequest:requestUrl httpMethod:GetMethod oauth:_OpenSdkOauth params:_publishParams files:nil oauthType:_OpenSdkOauth.oauthType retCode:&_retCode];
     
@@ -382,11 +498,15 @@
 
 - (void)dealloc {
     
-    [_OpenSdkOauth release];
-    [_OpenSdkRequest release];
-    [_publishParams release];
-    [_filePathName release];
-    [super dealloc];
+    delegate = nil;
+}
+
+#pragma mark - OpenSdkRequestDelegate
+- (void)authorizationFailedOrDidNotAuthorize:(OpenSdkRequest *)request
+{
+    if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+        [delegate authorizationFailedOrDidNotAuthorize:self];
+    }
 }
 
 @end

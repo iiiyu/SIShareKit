@@ -11,6 +11,21 @@
 
 #import "OpenSdkBase.h"
 
+@class OpenSdkOauth;
+
+@protocol OpenSdkOauthDelegate <NSObject>
+
+@optional
+
+// 登录错误 1.未获取到票据，授权失败，请认真检查keyWord是否正确 2.无网络连接，请设置网络 3.授权失败，请认真检查appKey是否正确
+- (void)authenticationOauthFailed:(OpenSdkOauth *)openSdkOauth withErrorNumber:(NSInteger)errorNumber;
+// 登录成功
+- (void)authenticationOauthSuccess:(OpenSdkOauth *)openSdkOauth;
+// 拒绝授权
+- (void)userRefuseAuthorize:(OpenSdkOauth *)openSdkOauth;
+
+@end
+
 /*
  * 授权方式，InAuth1－msf授权，InSafari－浏览器登录授权,InWebView-采用webView方式登录授权
  */
@@ -30,10 +45,11 @@ typedef enum
     NSString *_redirectURI;
     NSString *_accessToken;
     NSString *_accessSecret;
-    NSString *_expireIn;
+    NSDate *_expireIn;
     NSString *_openid;
     NSString *_openkey;
     uint16_t _oauthType;
+    id<OpenSdkOauthDelegate> __unsafe_unretained delegate;
 }
 
 @property(nonatomic, copy) NSString *appKey;
@@ -41,10 +57,11 @@ typedef enum
 @property(nonatomic, copy) NSString *redirectURI;
 @property(nonatomic, copy) NSString *accessToken;
 @property(nonatomic, copy) NSString *accessSecret;
-@property(nonatomic, copy) NSString *expireIn;
+@property(nonatomic, copy) NSDate *expireIn;
 @property(nonatomic, copy) NSString *openid;
 @property(nonatomic, copy) NSString *openkey;
 @property(nonatomic)uint16_t oauthType;
+@property(nonatomic, unsafe_unretained) id<OpenSdkOauthDelegate> delegate;
 
 /*
  * 初始化方法
@@ -88,5 +105,10 @@ typedef enum
  *
  */
 - (void)logOut;
+
+/*
+ * 读取token等信息
+ */
+- (void)readAuthorizeDataFromKeychain;
 
 @end

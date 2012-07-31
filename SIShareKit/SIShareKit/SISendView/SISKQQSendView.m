@@ -8,24 +8,46 @@
 
 #import "SISKQQSendView.h"
 
-@implementation SISKQQSendView
 
-- (id)initWithFrame:(CGRect)frame
+@implementation SISKQQSendView
+//@synthesize engine;
+@synthesize qqSendDelegate = _qqSendDelegate;
+
+-(id)initWithFrame: (CGRect) frame
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame: frame];
     if (self) {
         // Initialization code
     }
-    return self;
+    return(self);
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+-(id)initWithText: (NSString *) text image: (UIImage *) image
 {
-    // Drawing code
+    self = [super initWithText: text image: image];
+
+    [titleLabel setText: NSLocalizedString(@"腾讯微博", nil)];
+
+    return(self);
 }
-*/
+
+
+-(void)onSendButtonTouched: (id) sender
+{
+    if ([contentTextView.text isEqualToString: @""]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"腾讯微博", nil)
+                                                            message: NSLocalizedString(@"请输入微博内容", nil)
+                                                           delegate: nil
+                                                  cancelButtonTitle: NSLocalizedString(@"确定", nil) otherButtonTitles: nil];
+        [alertView show];
+        return;
+    }
+    if ([[self qqSendDelegate] respondsToSelector: @selector(buttonActionWillSendWeibo:withImage:andMessage:)]) {
+        [_qqSendDelegate buttonActionWillSendWeibo: self withImage: self.contentImage andMessage: contentTextView.text];
+    }
+//    [engine sendPublishWeiboWithUIImage:contentImage weiboContent:contentTextView.text];
+    //    [engine sendWeiBoWithText:contentTextView.text image:contentImage];
+//    [self hide:YES];
+}
 
 @end

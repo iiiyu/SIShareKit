@@ -12,6 +12,8 @@
 #import "OpenSdkBase.h"
 
 @implementation OpenSdkRequest
+@synthesize delegate;
+
 
 #pragma mark -
 #pragma mark Constants
@@ -51,7 +53,7 @@
 static NSInteger sortRequestParams(NSString *key1, NSString *key2, void *params) {
 	NSComparisonResult r = [key1 compare:key2];
 	if(r == NSOrderedSame) { 
-		NSMutableDictionary *dict = (NSMutableDictionary *)params;
+		NSMutableDictionary *dict = (__bridge NSMutableDictionary *)params;
 		NSString *value1 = [dict objectForKey:key1];
 		NSString *value2 = [dict objectForKey:key2];
 		return [value1 compare:value2];
@@ -88,7 +90,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
 	}
 	
 	NSMutableArray *paramsArray = [NSMutableArray array];
-	NSArray *sortedKeys = [[params allKeys] sortedArrayUsingFunction:sortRequestParams context:params];
+	NSArray *sortedKeys = [[params allKeys] sortedArrayUsingFunction:sortRequestParams context:(__bridge void*)params];
 	for (NSString *key in sortedKeys) {
 		NSString *value = [params valueForKey:key];
 		[paramsArray addObject:[NSString stringWithFormat:@"%@=%@", key, [value URLEncodedString]]];
@@ -132,7 +134,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
 	
 	NSURLResponse *response = nil;
 	NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-	NSString *retString = [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease];
+	NSString *retString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 	
 	NSLog(@"response code:%d string:%@", httpResponse.statusCode, retString);
@@ -165,7 +167,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
                         queryString:(NSString **)queryString {
        
        NSString *tmpParamString = [self connectParams:params];
-       NSMutableString *tmpUrlWithParam = [[[NSMutableString alloc] initWithString:url] autorelease];
+       NSMutableString *tmpUrlWithParam = [[NSMutableString alloc] initWithString:url];
        if (tmpParamString && ![tmpParamString isEqualToString:@""]) {
            [tmpUrlWithParam appendFormat:@"?%@", tmpParamString];
        }
@@ -178,7 +180,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
        
        NSMutableDictionary *finalParams;
        if (params) {
-           finalParams = [[params mutableCopy] autorelease];
+           finalParams = [params mutableCopy];
        } else {
            finalParams = [NSMutableDictionary dictionary];
        }
@@ -203,7 +205,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
                                                  normalUrl:&normalUrl 
                                                 normalQueryString:&tmpQueryString];
        [tmpQueryString appendFormat:@"&oauth_signature=%@", [signatureValue URLEncodedString]];
-       *queryString = [[[NSString alloc] initWithString:tmpQueryString] autorelease];
+       *queryString = [[NSString alloc] initWithString:tmpQueryString];
        
        return normalUrl;
 }
@@ -232,7 +234,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
     
     NSString *tmpParamString = [self connectParams:tmpParams];
     NSLog(@"params connect %@", tmpParamString);
-    NSString *tmpUrl = url;
+    NSString *tmpUrl = [url copy];
     
     if (tmpParamString && ![tmpParamString isEqualToString:@""]) {
         NSLog(@"enter if %@", tmpUrl);
@@ -240,8 +242,9 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
         NSLog(@"tmpUrl %@", tmpUrl);
     }
     
-    *queryString = [[[NSString alloc] init] autorelease];
+    *queryString = [[NSString alloc] init];
     *queryString = [self connectParams:params];
+//    [tmpParamString release];
     return tmpUrl;
 }
 
@@ -268,11 +271,10 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
 	}
 	
     NSLog(@"request url is %@", requestUrl);
-	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:[NSURL generateUrlWithType:requestUrl]] autorelease];
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL generateUrlWithType:requestUrl]];
 	[request setHTTPMethod:@"GET"];
 	[request setTimeoutInterval:20.0f];
 
-	[requestUrl release];
     
 	return [self getResponseData:request retCode:retCode];
 }
@@ -283,7 +285,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
 
 - (NSString *)httpPost:(NSString *)url queryString:(NSString *)queryString retCode:(uint16_t *)retCode {
 	
-	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:[NSURL generateUrlWithType:url]] autorelease];
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL generateUrlWithType:url]];
     NSLog(@"request url: %@", queryString);
 	[request setHTTPMethod:@"POST"];
 	[request setTimeoutInterval:20.0f];
@@ -301,7 +303,7 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
 - (NSString *)httpPostWithFile:(NSDictionary *)files url:(NSString *)url queryString:(NSString *)queryString retCode:(uint16_t *)retCode {
 	NSLog(@"querystring is %@", queryString);
     
-	NSMutableURLRequest *imageRequest = [[[NSMutableURLRequest alloc] initWithURL:[NSURL generateUrlWithType:url]] autorelease];
+	NSMutableURLRequest *imageRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL generateUrlWithType:url]];
 	[imageRequest setHTTPMethod:@"POST"];
 	
     NSString *tmpBoundary = [NSString stringWithFormat:@"%u", arc4random() % (9999999 - 123400) + 123400];
@@ -392,7 +394,10 @@ static NSData *HMAC_SHA1(NSString *data, NSString *key) {
         if ((oauth.accessToken == (NSString *)[NSNull null]) || (oauth.accessToken.length == 0) ||
             (oauth.openid == (NSString *)[NSNull null]) || (oauth.openid.length == 0)) {
             NSLog(@"授权失败或没有授权");
-            [OpenSdkBase showMessageBox:@"授权失败或没有授权，请重新授权"];
+            if ([[self delegate] respondsToSelector:@selector(authorizationFailedOrDidNotAuthorize:)]) {
+                [delegate authorizationFailedOrDidNotAuthorize:self];
+            }
+//            [OpenSdkBase showMessageBox:@"授权失败或没有授权，请重新授权"];
             return nil;
         }
         

@@ -26,30 +26,14 @@ static NSString *authPrefix = @"authorize";
 #define oauth2TokenKey @"access_token="
 #define oauth2OpenidKey @"openid="
 #define oauth2OpenkeyKey @"openkey="
-#define oauth2ExpireInKey @"expire_in="
+#define oauth2ExpireInKey @"expires_in="
 
 @implementation SISKQQWeiBoDialogView
 @synthesize openSdkOauth = _openSdkOauth;
+@synthesize delegate;
 
-- (id)initWithFrame:(CGRect)frame
+- (void)show
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        
-    }
-    return self;
-}
-
-//- (void)showInView{
-//    self.webView.delegate = self;
-//    [super showInView];
-//    
-//}
-
-- (void)showLoginWebView
-{
-    self.webView.delegate = self;
     uint16_t authorizeType = oauthMode; 
     
     _openSdkOauth = [[OpenSdkOauth alloc] initAppKey:[OpenSdkBase getAppKey] appSecret:[OpenSdkBase getAppSecret]];
@@ -71,26 +55,19 @@ static NSString *authPrefix = @"authorize";
     NSLog(@"request url is %@", loadingURL);
     
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:loadingURL]];
+    
+    NSLog(@"request:%@", request);
 	
 	[self.webView loadRequest:request];
-    [self showInView];
+    [super show];
 }
 
 - (void)hide
 {
     [super hide];
-    [self.webView setDelegate:nil];
+//    [self setDelegate:nil];
     _openSdkOauth = nil;
 }
-
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
 
 #pragma mark - UIWebViewDelegate Method
 /*
@@ -112,15 +89,15 @@ static NSString *authPrefix = @"authorize";
         NSString *openkey = [OpenSdkBase getStringFromUrl:[url absoluteString] needle:oauth2OpenkeyKey];
 		NSString *expireIn = [OpenSdkBase getStringFromUrl:[url absoluteString] needle:oauth2ExpireInKey];
         
-		NSDate *expirationDate =nil;
-		if (_openSdkOauth.expireIn != nil) {
-			int expVal = [_openSdkOauth.expireIn intValue];
-			if (expVal == 0) {
-				expirationDate = [NSDate distantFuture];
-			} else {
-				expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
-			} 
-		} 
+		NSDate *expirationDate = _openSdkOauth.expireIn;
+//		if (_openSdkOauth.expireIn != nil) {
+//			int expVal = [_openSdkOauth.expireIn intValue];
+//			if (expVal == 0) {
+//				expirationDate = [NSDate distantFuture];
+//			} else {
+//				expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
+//			} 
+//		} 
         
         NSLog(@"token is %@, openid is %@, expireTime is %@", accessToken, openid, expirationDate);
         
@@ -128,19 +105,21 @@ static NSString *authPrefix = @"authorize";
             || (openid == (NSString *) [NSNull null]) || (openkey.length == 0) 
             || (openkey == (NSString *) [NSNull null]) || (openid.length == 0)) {
             [_openSdkOauth oauthDidFail:InWebView success:YES netNotWork:NO];
+            if ([[self delegate] respondsToSelector:@selector(oauthDidFailed:)]) {
+                [delegate oauthDidFailed:self];
+            }
+//            if ([[self delegate] respondsToSelector:@selector(oauthDidFailed:)]) {
+//                [delegate oauthDidFailed:self];
+//            }
         }
         else {
             [_openSdkOauth oauthDidSuccess:accessToken accessSecret:nil openid:openid openkey:openkey expireIn:expireIn];
-//            if ([delegate respondsToSelector:@selector(TXDialogDidLoginSuccess)]) {
-//                [delegate TXDialogDidLoginSuccess];
-//                //                [delegate TXDidLogin:self];
-//            }
+            if ([[self delegate] respondsToSelector:@selector(oauthDidSuccess:)]) {
+                [delegate oauthDidSuccess:self];
+            }
         }
-//        self.webView.delegate = nil;
-//        [self.webView setHidden:YES];
-        //        [_titleLabel setHidden:YES];
         
-        [self hide];
+//        [self hide];
         
 		return NO;
 	}
@@ -158,6 +137,7 @@ static NSString *authPrefix = @"authorize";
  * 当网页视图结束加载一个请求后得到通知
  */
 - (void) webViewDidFinishLoad:(UIWebView *)webView {
+	[super webViewDidFinishLoad:webView];
 //    [_indicatorView stopAnimating];
     NSString *url = self.webView.request.URL.absoluteString;
     NSLog(@"web view finish load URL %@", url);
@@ -167,6 +147,9 @@ static NSString *authPrefix = @"authorize";
  * 页面加载失败时得到通知，可根据不同的错误类型反馈给用户不同的信息
  */
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if ([[self delegate] respondsToSelector:@selector(oauthDidFailed:)]) {
+        [delegate oauthDidFailed:self];
+    }
 //    NSLog(@"no network:errcode is %d, domain is %@", error.code, error.domain);
 //    
 //    if (!([error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102)) {
@@ -175,5 +158,7 @@ static NSString *authPrefix = @"authorize";
 //        //        [_titleLabel removeFromSuperview];
 //	}
 }
+
+
 
 @end

@@ -24,8 +24,8 @@ enum REPONSE_RESULT {
 
 @property(nonatomic) NSInteger ret;
 @property(nonatomic) NSInteger errcode;
-@property(nonatomic, retain) NSString *msg;
-@property(nonatomic, retain) NSMutableDictionary *responseDict;
+@property(nonatomic) NSString *msg;
+@property(nonatomic) NSMutableDictionary *responseDict;
 
 /*
  * 解析API接口返回的json数据

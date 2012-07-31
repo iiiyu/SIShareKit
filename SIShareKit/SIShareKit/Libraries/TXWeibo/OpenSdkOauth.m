@@ -34,6 +34,7 @@ static NSString *authPrefix = @"authorize";
 @synthesize openid = _openid;
 @synthesize openkey = _openkey;
 @synthesize oauthType = _oauthType;
+@synthesize delegate;
 
 #pragma -
 #pragma mark init members
@@ -42,14 +43,10 @@ static NSString *authPrefix = @"authorize";
 {
 	if ([super init]) 
 	{
-		[_appKey release];
         _appKey = [appKey copy];
 		_appSecret = [appSecret copy];
         _redirectURI = [[NSString alloc] initWithString:[OpenSdkBase getRedirectUri]];
-//        if ([self isSessionValid]) {
-            [self readAuthorizeDataFromKeychain];
-//        }
-        
+        [self readAuthorizeDataFromKeychain];
 	}
 	return self;
 }
@@ -102,12 +99,13 @@ static NSString *authPrefix = @"authorize";
     NSLog(@"appkey is %@", _appKey);
     NSString *authorizeURL = [oauthRequestBaseURL stringByAppendingString:authPrefix];
     
-    NSString *loadingURL = [[OpenSdkBase generateURL:authorizeURL params:params httpMethod:nil] retain];
+    NSString *loadingURL = [OpenSdkBase generateURL:authorizeURL params:params httpMethod:nil];
     
     NSLog(@"request url is %@", loadingURL);
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:loadingURL]];
 	
 	[webView loadRequest:request];
+//    [request release];
 }
 
 #pragma -
@@ -140,48 +138,72 @@ static NSString *authPrefix = @"authorize";
 }
 
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 - (void) oauthDidSuccess:(NSString *)accessToken accessSecret:(NSString *)accessSecret openid:(NSString *)openid openkey:(NSString *)openkey expireIn:(NSString *)expireIn {
     self.accessToken = accessToken;
     self.accessSecret = accessSecret;
     self.openid = openid;
     self.openkey = openkey;
-    self.expireIn = expireIn;
-    NSLog(@"expireIn:%@", expireIn);
+    
+    // 字符串转换成NSDate
+    NSDate *expirationDate = nil;
+    if (expireIn != nil) {
+        int expVal = [expireIn intValue];
+        if (expVal == 0) {
+            expirationDate = [NSDate distantFuture];
+        } else {
+            expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
+        } 
+    } 
+    NSLog(@"expireIn:%@, nsdate:%@", expireIn, [NSDate date]);
+    self.expireIn = expirationDate;
     //用户信息保存到本地
     [self saveAuthorizeDataToKeychain];
-    
-    [OpenSdkBase showMessageBox:@"登录成功！"];
+//    [self readAuthorizeDataFromKeychain];
+    if ([[self delegate] respondsToSelector:@selector(authenticationOauthSuccess:)]) {
+        [delegate authenticationOauthSuccess:self];
+    }
 }
 
 - (void) oauthDidFail:(uint16_t)oauthType success:(BOOL)success netNotWork:(BOOL)netNotWork {
     NSLog(@"oauth type is %d", oauthType);
+    NSInteger error = -1;
     if (oauthType == InAuth1 && success ) {
-        [OpenSdkBase showMessageBox:@"未获取到票据，授权失败，请认真检查keyWord是否正确"];
+        //        [OpenSdkBase showMessageBox:@"未获取到票据，授权失败，请认真检查keyWord是否正确"];
+        NSLog(@"未获取到票据，授权失败，请认真检查keyWord是否正确");
     }
     else if(oauthType == InWebView) {
         if (success) {
-            [OpenSdkBase showMessageBox:@"未获取到票据，授权失败，请认真检查keyWord是否正确"];
+            //[OpenSdkBase showMessageBox:@"未获取到票据，授权失败，请认真检查keyWord是否正确"];
+            NSLog(@"未获取到票据，授权失败，请认真检查keyWord是否正确");
+            error = 1;
         }
         else {
             if (netNotWork) {
-                [OpenSdkBase showMessageBox:@"无网络连接，请设置网络"];
+                //                [OpenSdkBase showMessageBox:@"无网络连接，请设置网络"];
+                NSLog(@"无网络连接，请设置网络");
+                error = 2;
             }
             else {
-                [OpenSdkBase showMessageBox:@"授权失败，请认真检查appKey是否正确"];
+                //                [OpenSdkBaese showMessageBox:@"授权失败，请认真检查appKey是否正确"];
+                NSLog(@"授权失败，请认真检查appKey是否正确");
+                error = 3;
             }
         }
     }
     else {
-        NSLog(@"oauth type is %@", oauthType);
+        NSLog(@"oauth type is %d", oauthType);
     }
+    
+    if ([[self delegate] respondsToSelector:@selector(authenticationOauthFailed:withErrorNumber:)]) {
+        [delegate authenticationOauthFailed:self withErrorNumber:error];
+    }
+    
 }
 
 - (void) refuseOauth:(NSURL *)url {
-    NSRange start = [[url absoluteString] rangeOfString:oauth2TokenKey];
+//    NSRange start = [[url absoluteString] rangeOfString:oauth2TokenKey];
+    NSRange start;
     
     start = [[url absoluteString] rangeOfString:@"code="];
     if (start.location != NSNotFound) {
@@ -191,7 +213,10 @@ static NSString *authPrefix = @"authorize";
         if ([code isEqualToString:@"101"] && [type isEqualToString:@"error"]) {
             
             NSLog(@"refuse to authorize");
-            [OpenSdkBase showMessageBox:@"用户拒绝webView授权"];
+            if ([[self delegate] respondsToSelector:@selector(userRefuseAuthorize:)]) {
+                [delegate userRefuseAuthorize:self];
+            }
+            
         }
     }
 }
@@ -199,17 +224,10 @@ static NSString *authPrefix = @"authorize";
 
 - (void)saveAuthorizeDataToKeychain
 {
-//    self.accessToken = accessToken;
-//    self.accessSecret = accessSecret;
-//    self.openid = openid;
-//    self.openkey = openkey;
-//    self.expireIn = expireIn;
-    
-    
-    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
+    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];    
     [SFHFKeychainUtils storeUsername:kWBKeychainUserID andPassword:self.openid forServiceName:serviceName updateExisting:YES error:nil];
 	[SFHFKeychainUtils storeUsername:kWBKeychainAccessToken andPassword:self.accessToken forServiceName:serviceName updateExisting:YES error:nil];
-//	[SFHFKeychainUtils storeUsername:kWBKeychainExpireTime andPassword:self.expireIn forServiceName:serviceName updateExisting:YES error:nil];
+	[SFHFKeychainUtils storeUsername:kWBKeychainExpireTime andPassword:[self.expireIn description] forServiceName:serviceName updateExisting:YES error:nil];
 }
 
 - (void)readAuthorizeDataFromKeychain
@@ -217,26 +235,20 @@ static NSString *authPrefix = @"authorize";
     NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
     self.openid = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
     self.accessToken = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
-//    self.expireIn = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+    NSString *dateStr = [SFHFKeychainUtils getPasswordForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+    NSLog(@"dateStr:%@", dateStr);
+    self.expireIn = [self dateFromString:dateStr];
 }
 
 - (void)deleteAuthorizeDataInKeychain
 {
-//    self.userID = nil;
-//    self.accessToken = nil;
-//    self.expireTime = 0;
     self.openid = nil;
     self.accessToken = nil;
     self.expireIn = nil;
     NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kTXKeychainServiceNameSuffix];
     [SFHFKeychainUtils deleteItemForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
     [SFHFKeychainUtils deleteItemForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
-//    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
-//    
-//    NSString *serviceName = [[self urlSchemeString] stringByAppendingString:kWBKeychainServiceNameSuffix];
-//    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainUserID andServiceName:serviceName error:nil];
-//	[SFHFKeychainUtils deleteItemForUsername:kWBKeychainAccessToken andServiceName:serviceName error:nil];
-//	[SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
+    [SFHFKeychainUtils deleteItemForUsername:kWBKeychainExpireTime andServiceName:serviceName error:nil];
 }
 
 
@@ -247,23 +259,9 @@ static NSString *authPrefix = @"authorize";
 
 -(BOOL)isSessionValid
 {
-//    BOOL result = NO;
-    [self readAuthorizeDataFromKeychain];
-//    NSDate *expirationDate =nil;
-//    NSLog(@"%@", self.expireIn);
-//    if (self.expireIn != nil) {
-//        int expVal = [self.expireIn intValue];
-//        if (expVal == 0) {
-//            expirationDate = [NSDate distantFuture];
-//        } else {
-//            expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
-//        } 
-//    } 
-//    return (self.openid != nil && self.accessToken != nil && self.expireIn != nil && NSOrderedDescending == [expirationDate compare:[NSDate date]]);
-    return (self.openid != nil && self.accessToken != nil);
-
-    
-//    return result;
+//    [self readAuthorizeDataFromKeychain];
+//    NSLog(@"1:%@ 2.%@ 3.%@", self.openid, self.accessToken, self.expireIn);
+    return (self.openid != nil && self.accessToken != nil && NSOrderedDescending == [self.expireIn compare:[NSDate date]]);
 }
 
 - (void)logOut
@@ -271,7 +269,22 @@ static NSString *authPrefix = @"authorize";
     _accessToken = nil;
     _expireIn = nil;
     _openid = nil;
+    delegate = nil;
     [self deleteAuthorizeDataInKeychain];
+}
+
+- (NSDate *)dateFromString:(NSString *)dateString{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss Z"]; 
+    
+    
+    NSDate *destDate= [dateFormatter dateFromString:dateString];
+    
+    
+    return destDate;
+    
 }
 
 

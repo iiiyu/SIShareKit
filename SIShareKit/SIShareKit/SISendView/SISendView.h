@@ -18,14 +18,13 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-//#import "WBEngine.h"
-
 @class SISendView;
 
 @protocol SISendViewDelegate <NSObject>
 
 @optional
 
+@optional
 - (void)sendViewWillAppear:(SISendView *)view;
 - (void)sendViewDidAppear:(SISendView *)view;
 - (void)sendViewWillDisappear:(SISendView *)view;
@@ -64,7 +63,6 @@
     
     BOOL        isKeyboardShowing;
     
-//    WBEngine    *engine;
     
     id<SISendViewDelegate> delegate;
 }
@@ -73,7 +71,7 @@
 @property (nonatomic, retain) UIImage *contentImage;
 @property (nonatomic, assign) id<SISendViewDelegate> delegate;
 
-- (id)initWithAppKey:(NSString *)appKey appSecret:(NSString *)appSecret text:(NSString *)text image:(UIImage *)image;
+- (id)initWithText:(NSString *)text image:(UIImage *)image;
 
 - (void)show:(BOOL)animated;
 - (void)hide:(BOOL)animated;

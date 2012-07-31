@@ -86,7 +86,6 @@
 //    alert.delegate = self;
 	alert.tag = 'e';
 	[alert show];
-	[alert release];
 }
 
 #pragma -
@@ -113,15 +112,14 @@
 			continue;
 		}
 		
-		NSString* escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+		NSString* escaped_value = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(
 																					  NULL, 
-																					  (CFStringRef)[params objectForKey:key],
+																					  (__bridge CFStringRef)[params objectForKey:key],
 																					  NULL, 
                                                                                       (CFStringRef)@"!*'();:@&=+$,/?%#[]",
 																					  kCFStringEncodingUTF8);
 		
 		[pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escaped_value]];
-		[escaped_value release];
 	}
 	NSString* query = [pairs componentsJoinedByString:@"&"];
 	
@@ -196,7 +194,7 @@ static inline void output64Chunk( int c1, int c2, int c3, int pads, NSMutableDat
 		}
 	}
 	
-	return ( [[[NSString allocWithZone: [self zone]] initWithData: buffer encoding: NSASCIIStringEncoding] autorelease] );
+	return ( [[NSString allocWithZone: nil] initWithData: buffer encoding: NSASCIIStringEncoding] );
 }
 
 @end
@@ -205,12 +203,11 @@ static inline void output64Chunk( int c1, int c2, int c3, int pads, NSMutableDat
 
 - (NSString *)URLEncodedString 
 {
-    NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                           (CFStringRef)self,
+    NSString *result = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                           (__bridge CFStringRef)self,
                                                                            NULL,
 																		   CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                            kCFStringEncodingUTF8);
-    [result autorelease];
 	return result;
 }
 
@@ -270,21 +267,5 @@ static inline void output64Chunk( int c1, int c2, int c3, int pads, NSMutableDat
 	
 	return retUrl;
 }
-
-//
-//#pragma mark - UIAlertDelegate
-//
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-////    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-//    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-//    if ([alertView.message isEqualToString:@"没有授权或授权失败"]) {
-//        if ([buttonTitle isEqualToString:@"确定"]){ 
-////            NSLog(@"User pressed the Yes button.");
-//            
-//            
-//        }
-//    }
-//}
 
 @end

@@ -9,21 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface SISKBaseDialogView : UIView
-{
-    UIView *backgroundView;
-    UIButton *closeButton;
-    UIWebView *webView;
-}
+@interface SISKBaseDialogView : UIView <UIWebViewDelegate>
 
-@property (nonatomic, strong) IBOutlet UIView *backgroundView;
-@property (nonatomic, strong) IBOutlet UIButton *closeButton;
-@property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
-//+ (SISKBaseDialogView *) shareSISKBaseDialogView;
-
-- (void)showInView;
-
+- (void)show;
 - (void)hide;
 
 - (void)loadRequestWithURL:(NSURL *)url;

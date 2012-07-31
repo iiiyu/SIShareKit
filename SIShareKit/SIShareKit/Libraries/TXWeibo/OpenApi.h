@@ -17,6 +17,8 @@
 //Define the protocol for the delegate
 @protocol OpenApiDelegate <NSObject>
 
+@optional
+
 // 发送成功
 - (void)sendSuccess:(OpenApi *)openApi;
 
@@ -26,9 +28,22 @@
 // 调用接口失败
 - (void)sendInterfaceFaile:(OpenApi *)openApi;
 
+// 验证失败
+- (void)authorizationFailedOrDidNotAuthorize:(OpenApi *)openApi;
+
+// 调用成功
+- (void)callFunctionSuccess:(OpenApi *)openApi withResult:(NSString *)resultString;
+
+// 调用失败
+- (void)callFunctionFailed:(OpenApi *)openApi;
+
+// 获取用户信息时候调用接口失败
+- (void)callTheInterfaceFailed:(OpenApi *)openApi;
+
+
 @end
 
-@interface OpenApi : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+@interface OpenApi : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, OpenSdkOauthDelegate> {
 
     OpenSdkOauth *_OpenSdkOauth;
     OpenSdkRequest *_OpenSdkRequest;
@@ -38,12 +53,12 @@
     NSString *_filePathName;
     uint16_t _retCode;
     
-    id<OpenApiDelegate> delegate;
+//    id<OpenApiDelegate> delegate;
 }
 
-@property (nonatomic,retain) NSString *filePathName;
+@property (nonatomic) NSString *filePathName;
 @property (nonatomic) uint16_t retCode;
-@property (nonatomic, assign) id<OpenApiDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<OpenApiDelegate> delegate;
 /*
  * 初始化
  */
@@ -63,11 +78,21 @@
  * 发表带图片微博
  */
 - (void) publishWeiboWithImage:(NSString *)filePath weiboContent:(NSString *)weiboContent jing:(NSString *)jing wei:(NSString *)wei format:(NSString *)format clientip:(NSString *)clientip syncflag:(NSString *)syncflag;
+/*
+ * 用UIimage直接发微博
+ */
+- (void) publishWeiboWithUIImage:(UIImage *)image weiboContent:(NSString *)weiboContent jing:(NSString *)jing wei:(NSString *)wei format:(NSString *)format clientip:(NSString *)clientip syncflag:(NSString *)syncflag;
 
 /*
  * 获取用户信息
  */
 - (void) getUserInfo:(NSString *)format;
+
+/*
+ * 获取用户信息
+ */
+- (NSString *) newGetUserInfo:(NSString *)format;
+
 
 /*
  * 拉取我收听的人列表
